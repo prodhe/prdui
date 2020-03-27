@@ -1,0 +1,73 @@
+-- Load and set namespace
+local _, core = ...
+
+-- Stored default options. true/false: 1/nil
+core.options = {}
+core.data = {}
+core.options.debug = nil -- print debug statements
+core.options.chat = nil -- activate to allow arrows and meta in chat edit box
+
+-- LoadDB tries to load the SavedVariables
+function core:LoadDB()
+	if _G["PRDUIDB"] == nil then
+		_G["PRDUIDB"] = {
+			options = core.options,
+			data = core.data
+		}
+		core:Debug("Core: LoadDB: defaults")
+	else
+		core.options = _G["PRDUIDB"].options
+		core.data = _G["PRDUIDB"].data
+		core:Debug("Core: LoadDB: user")
+	end
+end
+
+function core:RestoreDefaults()
+	_G["PRDUIDB"] = nil
+	core:Print("Restored defaults.")
+	ReloadUI()
+end
+
+-- Print is a prefixed print function
+function core:Print(...)
+	print("|cff" .. "f59c0a" .. "PrdUI:|r", ...)
+end
+
+-- Debug is a prefixed print function, which only prints if debug is activated
+function core:Debug(...)
+	if core.options.debug then
+		print()
+		print("|cff" .. "f59c0a" .. "DEBUG:|r", ...)
+	end
+end
+function core:ToggleDebug()
+	if core.options.debug then
+		core.options.debug = nil
+		core:Print("Debugging off.")
+	else
+		core.options.debug = 1
+		core:Print("Debugging on.")
+	end
+end
+
+-- RegisterEvents sets events for the obj using the handlerFunc
+function core:RegisterEvents(obj, handlerFunc, ...)
+	core:Debug("Core: RegisterEvents:", tostringall(...))
+	for i = 1, select("#", ...) do
+		local ev = select(i, ...)
+		obj:RegisterEvent(ev)
+	end
+	obj:SetScript("OnEvent", handlerFunc)
+end
+
+-- SetChat sets editing with arrows in chat message based on core.options.chat
+function core:SetChat()
+	core:Debug("Core: SetChat:", core.options.chat)
+	local maybe = true
+	if core.options.chat then
+		maybe = false
+	end
+	for i = 1, NUM_CHAT_WINDOWS do
+		_G["ChatFrame"..i.."EditBox"]:SetAltArrowKeyMode(maybe)
+	end
+end

@@ -1,0 +1,10 @@
+<Bindings>
+  <Binding name="PRDUI_NOTES" header="PRDUI" runOnUp="true">
+    if (keystate == "up") then
+      KeyBinding_ToggleNotepad()
+	end
+  </Binding>
+  <Binding name="PRDUI_COORDS">
+    KeyBinding_ShowCoords()
+  </Binding>
+</Bindings>
