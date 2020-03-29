@@ -5,9 +5,9 @@ local Notes = core.Notes
 
 -- Stored data
 core.data.notepad = ""
-core.options.notepadOpen = nil
-core.options.notepadWidth = 240
-core.options.notepadHeight = 280
+core.options.notepadOpen = false
+core.options.notepadWidth = 120
+core.options.notepadHeight = 130
 
 local f
 local ed
@@ -19,9 +19,9 @@ function Notes:Create()
 	-- Create NotesFrame
 	f = CreateFrame("Frame", "PrdUINotesFrame", UIParent, "UIPanelDialogTemplate")
 	f.DialogBG = _G[f:GetName() .. "DialogBG"]
-	local w = 240
-	local h = 280
-	if not core.options.notepadWidth and not core.options.notepadHeight then
+	local w = 300
+	local h = 340
+	if core.options.notepadWidth and core.options.notepadHeight then
 		w = core.options.notepadWidth
 		h = core.options.notepadHeight
 		core:Debug("Notes: Using user size")
@@ -41,27 +41,18 @@ function Notes:Create()
 	f:SetScript("OnDragStop", f.StopMovingOrSizing)
 	f:SetClampedToScreen(true)
 
-	-- f:EnableKeyboard(true)
-	-- f:SetScript("OnKeyDown", function(self, key)
-		-- if key == "ESCAPE" then
-			-- core.Notes:Toggle()
-			-- f:SetPropagateKeyboardInput(false)
-		-- else
-			-- f:SetPropagateKeyboardInput(true)
-		-- end
-	-- end)
-
-	f.ScrollFrame = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
-	f.ScrollFrame:SetPoint("TOPLEFT", f.DialogBG, "TOPLEFT", 4, -8)
+	f.ScrollFrame = CreateFrame("ScrollFrame", "PrdUINotesFrameScrollFrame", f, "UIPanelScrollFrameTemplate")
+	f.ScrollFrame:SetPoint("TOPLEFT", f.DialogBG, "TOPLEFT", 4, -6)
 	f.ScrollFrame:SetPoint("BOTTOMRIGHT", f.DialogBG, "BOTTOMRIGHT", -3, 4)
 	f.ScrollFrame:SetClipsChildren(true)
 
+	-- Move the scrollbar to within the graphical frame
 	f.ScrollFrame.ScrollBar:ClearAllPoints()
-	f.ScrollFrame.ScrollBar:SetPoint("TOPLEFT", f.ScrollFrame, "TOPRIGHT", -12, -18)
-	f.ScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", f.ScrollFrame, "BOTTOMRIGHT", -7, 18)
+	f.ScrollFrame.ScrollBar:SetPoint("TOPLEFT", f.ScrollFrame, "TOPRIGHT", -8, -18)
+	f.ScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", f.ScrollFrame, "BOTTOMRIGHT", -7, 16)
 
 	-- Create EditBox
-	ed = CreateFrame("EditBox")
+	ed = CreateFrame("EditBox", "PrdUINotesFrameEditBox")
 	ed:SetMultiLine(true)
 	ed:SetFontObject(ChatFontNormal)
 	ed:SetWidth(w-50) -- minus scrollbar
@@ -69,8 +60,14 @@ function Notes:Create()
 	ed:SetPoint("TOPLEFT", 8, 0)
 	ed:SetAutoFocus(false)
 	ed:SetTextColor(1, 0.8, 0.85, 1) -- 255, 204, 217
+	ed:SetIgnoreParentAlpha(true)
 
+	-- Add the EditBox to the scroll
+	f.ScrollFrame:SetScrollChild(ed)
+
+	-- Set default text
 	ed:SetText(core.data.notepad)
+	ed:SetCursorPosition(0)
 
 	-- Set handlers for events and pressed keys
 	ed:SetScript("OnEscapePressed", function()
@@ -91,15 +88,12 @@ function Notes:Create()
 		end
 	end)
 
-	-- Add onlick focus
+	-- Add onlick focus outside editbox
 	f.ScrollFrame:SetScript("OnMouseDown", function()
+		ed:SetCursorPosition(ed:GetText():len())
 		ed:SetFocus()
 	end)
 
-	-- Add the EditBox to the scroll
-	f.ScrollFrame:SetScrollChild(ed)
-
-	-- Hide
 	f:Hide()
 end
 
@@ -112,17 +106,39 @@ end
 function Notes:SetSize(w, h)
 	core:Debug("Notes: SetSize: ", w, h)
 	if w == nil or w == "" then
-		w = 200
+		w = core.options.notepadWidth
 	end
 	if h == nil or h == "" then
-		h = 240
+		h = core.options.notepadHeight
 	end
-	
-	if w and h then
-		core.options.notepadWidth = w
-		core.options.notepadHeight = h
-	end
+
+	core.options.notepadWidth = w
+	core.options.notepadHeight = h
 
 	f:SetSize(w, h)
 	ed:SetWidth(w-50) -- minus scrollbar
+end
+
+-- This hijacks the global chatedit link insertion and listens for hyperlink clicks
+function Notes:SetupChatLinks()
+	core:Debug("Notes: SetupChatLinks")
+
+	-- Enable inserting link items
+	local old_ChatEdit_InsertLink = ChatEdit_InsertLink
+	function ChatEdit_InsertLink(text)
+		if ed:HasFocus() then
+			ed:Insert(text)
+			return true -- prevents the stacksplit frame from showing
+		else
+			return old_ChatEdit_InsertLink(text)
+		end
+	end
+
+	-- Enable clicking on link items
+	ed:SetHyperlinksEnabled(true)
+	ed:SetScript("OnHyperlinkClick", function(self, link, text, button)
+		core:Debug("Notes: Hyperlink clicked")
+		SetItemRef(link, text, button)
+	end)
+
 end

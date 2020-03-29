@@ -5,7 +5,7 @@ local UI = core.UI
 
 -- Options
 core.options.scale = 1 -- default scale
-core.options.uienable = nil
+core.options.uienable = true
 
 -- Create the area from which other elements will position into
 function UI:Create()

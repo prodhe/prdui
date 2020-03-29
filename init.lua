@@ -2,14 +2,13 @@
 local _, core = ...
 
 -- Set default values
--- 'nil' equals disabled, by praxis '1' for enabled
-core.options.debug = nil
-core.options.chat = nil
+core.options.debug = false
+core.options.chat = false
 core.options.scale = 0.9
-core.options.uienable = nil
-core.options.notepadWidth = 240
-core.options.notepadHeight = 280
-core.options.notepadOpen = nil
+core.options.uienable = false
+core.options.notepadWidth = 300
+core.options.notepadHeight = 340
+core.options.notepadOpen = false
 
 -- Handler for console slash commands
 function core:Console(arg)
@@ -95,6 +94,10 @@ function core:Init(event, name)
 	if core.options.notepadOpen then
 		core.Notes:Toggle()
 	end
+
+	-- Hijack item links for notepad
+	core:Debug("Init: Setup chat links for notes")
+	core.Notes:SetupChatLinks()
 
 	-- Functions for key binds
 	_G["KeyBinding_ToggleNotepad"] = function()

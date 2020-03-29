@@ -1,11 +1,11 @@
 -- Load and set namespace
 local _, core = ...
 
--- Stored default options. true/false: 1/nil
+-- Stored default options.
 core.options = {}
 core.data = {}
-core.options.debug = nil -- print debug statements
-core.options.chat = nil -- activate to allow arrows and meta in chat edit box
+core.options.debug = false -- print debug statements
+core.options.chat = false -- activate to allow arrows and meta in chat edit box
 
 -- LoadDB tries to load the SavedVariables
 function core:LoadDB()
@@ -42,16 +42,15 @@ end
 -- Debug is a prefixed print function, which only prints if debug is activated
 function core:Debug(...)
 	if core.options.debug then
-		print()
 		print("|cff" .. "f59c0a" .. "DEBUG:|r", ...)
 	end
 end
 function core:ToggleDebug()
 	if core.options.debug then
-		core.options.debug = nil
+		core.options.debug = false
 		core:Print("Debugging off.")
 	else
-		core.options.debug = 1
+		core.options.debug = true
 		core:Print("Debugging on.")
 	end
 end

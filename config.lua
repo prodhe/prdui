@@ -26,9 +26,9 @@ function Config:Create()
 	f.sectionUI.header = Config:CreateHeaderText("TOPLEFT", f.sectionUI, "TOPLEFT", 0, "User interface", 16)
 	f.sectionUI.checkbtnUIEnable = Config:CreateCheckButton("TOPLEFT", f.sectionUI.header, "BOTTOMLEFT", -15, "ChkBtnUIEnable", "Redesign UI", "Use the PrdUI GUI design. Toggling this will force a UI reload.", core.options.uienable, function(self)
 		if self:GetChecked() then
-			core.options.uienable = 1
+			core.options.uienable = true
 		else
-			core.options.uienable = nil
+			core.options.uienable = false
 		end
 		ReloadUI()
 	end)
@@ -48,9 +48,9 @@ function Config:Create()
 	f.sectionSystem.header = Config:CreateHeaderText("TOPLEFT", f.sectionSystem, "TOPLEFT", 0, "System", 16)
 	f.sectionSystem.checkbtnChatMeta = Config:CreateCheckButton("TOPLEFT", f.sectionSystem.header, "BOTTOMLEFT", -15, "ChkBtnChatMeta", "Allow editing in chat box", "Enable the use of meta characters in chat, such as arrow keys for moving the cursor in the edit box.", core.options.chat, function(self)
 		if self:GetChecked() then
-			core.options.chat = 1
+			core.options.chat = true
 		else
-			core.options.chat = nil
+			core.options.chat = false
 		end
 		core:SetChat()
 	end)
