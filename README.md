@@ -17,8 +17,6 @@ Apart from a UI redesign, it also boasts quality-of-life modules such as coordin
 
 The latest stable version is available at https://github.com/prodhe/prdui.
 
-Earlier released versions are tagged and available for selection in the source tree.
-
 A bleeding edge development version is available as well (in a separate development branch of the source), but that one may or may not be stable for actual usage.
 
 ### Download
