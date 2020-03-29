@@ -16,14 +16,20 @@ function core:LoadDB()
 		}
 		core:Debug("Core: LoadDB: defaults")
 	else
-		core.options = _G["PRDUIDB"].options
+		-- Check if options are nil or not and then link it to core.options
+		if _G["PRDUIDB"].options then
+			core.options = _G["PRDUIDB"].options
+		else
+			_G["PRDUIDB"].options = core.options
+		end
+
 		core.data = _G["PRDUIDB"].data
 		core:Debug("Core: LoadDB: user")
 	end
 end
 
 function core:RestoreDefaults()
-	_G["PRDUIDB"] = nil
+	_G["PRDUIDB"].options = nil
 	core:Print("Restored defaults.")
 	ReloadUI()
 end
