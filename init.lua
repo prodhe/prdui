@@ -22,6 +22,7 @@ Console commands:
 
 /pui coords - Print current zone and coordinates (Key Bindings > Other > PrdUI)
 /pui notepad - Open notepad (Key Bindings > Other > PrdUI)
+/pui range <spellname> - Show or set spell to check when in range
 /pui uireload - Reload UI affecting parts (can fix broken stuff)
 /pui defaults - Reset PrdUI to (very neutral) default settings]]
 		core:Print(s)
