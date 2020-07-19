@@ -39,4 +39,5 @@ The range check works for all kinds of spells currently known to the active play
 #### Example
 
 `/pui range Auto Shot`
+
 `/pui range Frostbolt`
