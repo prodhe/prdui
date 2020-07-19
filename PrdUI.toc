@@ -4,6 +4,7 @@
 ## Version: 1.0.1
 ## Notes: User interface of choice.
 ## SavedVariables: PRDUIDB
+## SavedVariablesPerCharacter: PRDUIDBCHAR
 
 core.lua
 ui.lua

@@ -3,7 +3,7 @@ local _, core = ...
 core.Range = {}
 local Range = core.Range
 
-core.options.rangeSpell = ""
+core.charOptions.rangeSpell = ""
 
 local rangeTimer = GetTime()
 local rangeUnitTarget = "target"
@@ -26,7 +26,7 @@ function Range:Create()
 
 		if UnitExists(rangeUnitTarget) and UnitIsVisible(rangeUnitTarget) then
 			local guid = UnitGUID(rangeUnitTarget)
-			local r = IsSpellInRange(core.options.rangeSpell, rangeUnitTarget)
+			local r = IsSpellInRange(core.charOptions.rangeSpell, rangeUnitTarget)
 			if r == inRange and guid == rangeunitTargetGUID then return end -- do not write text if status for same mob is the same as before
 			rangeunitTargetGUID = guid
 			inRange = r
@@ -50,9 +50,9 @@ function Range:Show()
 	local str = ""
 
 	if inRange == 1 then
-		str = "|cffeeeeee" .. core.options.rangeSpell .. "|r"
+		str = "|cffeeeeee" .. core.charOptions.rangeSpell .. "|r"
 	else
-		str = "|cffdd1111" .. core.options.rangeSpell .. "|r"
+		str = "|cffdd1111" .. core.charOptions.rangeSpell .. "|r"
 	end
 
 	rangeTimer = GetTime()
@@ -63,16 +63,19 @@ end
 -- Set ranged spell
 function Range:SetSpell(spell)
 	if not spell or spell == "" then
-		core:Print("Range: Current spell: " .. core.options.rangeSpell)
+		if not core.charOptions.rangeSpell then
+			core.charOptions.rangeSpell = ""
+		end
+		core:Print("Range: Current spell: " .. core.charOptions.rangeSpell)
 		return
 	end
 
 	name, _, _, _, _, _, _ = GetSpellInfo(spell)
 	if name then
 		core:Print("Range: Setting new spell: " .. name)
-		core.options.rangeSpell = name
+		core.charOptions.rangeSpell = name
 	else
 		core:Print("Range: Invalid spell: " .. spell)
-		core.options.rangeSpell = ""
+		core.charOptions.rangeSpell = ""
 	end
 end

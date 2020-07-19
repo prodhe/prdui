@@ -3,16 +3,26 @@ local _, core = ...
 
 -- Stored default options.
 core.options = {}
+core.charOptions = {}
 core.data = {}
 core.options.debug = false -- print debug statements
 core.options.chat = false -- activate to allow arrows and meta in chat edit box
 
 -- LoadDB tries to load the SavedVariables
 function core:LoadDB()
+	if _G["PRDUIDBCHAR"] == nil then
+		_G["PRDUIDBCHAR"] = {
+			charOptions = core.charOptions
+		}
+	end
+
 	if _G["PRDUIDB"] == nil then
 		_G["PRDUIDB"] = {
 			options = core.options,
 			data = core.data
+		}
+		_G["PRDUIDBCHAR"] = {
+			charOptions = core.charOptions
 		}
 		core:Debug("Core: LoadDB: defaults")
 	else
@@ -21,6 +31,12 @@ function core:LoadDB()
 			core.options = _G["PRDUIDB"].options
 		else
 			_G["PRDUIDB"].options = core.options
+		end
+
+		if _G["PRDUIDBCHAR"].charOptions then
+			core.charOptions = _G["PRDUIDBCHAR"].charOptions
+		else
+			_G["PRDUIDBCHAR"].charOptions = core.charOptions
 		end
 
 		core.data = _G["PRDUIDB"].data
