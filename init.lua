@@ -1,15 +1,6 @@
 -- Load and set namespace
 local _, core = ...
 
--- Set default values
-core.options.debug = false
-core.options.chat = false
-core.options.scale = 0.9
-core.options.uienable = false
-core.options.notepadWidth = 300
-core.options.notepadHeight = 340
-core.options.notepadOpen = false
-
 -- Handler for console slash commands
 function core:Console(args)
 	arg, subarg = strsplit(" ", args, 2)

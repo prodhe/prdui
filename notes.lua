@@ -6,8 +6,8 @@ local Notes = core.Notes
 -- Stored data
 core.data.notepad = ""
 core.options.notepadOpen = false
-core.options.notepadWidth = 120
-core.options.notepadHeight = 130
+core.options.notepadWidth = 300
+core.options.notepadHeight = 340
 
 local f
 local ed

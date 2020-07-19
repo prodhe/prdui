@@ -46,6 +46,7 @@ end
 
 function core:RestoreDefaults()
 	_G["PRDUIDB"].options = nil
+	_G["PRDUIDBCHAR"].charOptions = nil
 	core:Print("Restored defaults.")
 	ReloadUI()
 end
