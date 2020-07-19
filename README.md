@@ -35,3 +35,8 @@ This will display the name of the chosen spell if the target is valid and within
 briefly shown and will only popup again if the state is changed, i.e. in-or-out of range or a new target.
 
 The range check works for all kinds of spells currently known to the active player and the spell chosen is saved per character.
+
+#### Example
+
+`/pui range Auto Shot`
+`/pui range Frostbolt`
