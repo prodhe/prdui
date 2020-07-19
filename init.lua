@@ -11,7 +11,9 @@ core.options.notepadHeight = 340
 core.options.notepadOpen = false
 
 -- Handler for console slash commands
-function core:Console(arg)
+function core:Console(args)
+	arg, subarg = strsplit(" ", args, 2)
+
 	-- Print help if no arg
 	if arg == "" then
 		s = [[
@@ -40,6 +42,10 @@ Console commands:
 	-- Print coords
 	elseif arg == "coords" then
 		core.Coords:Show()
+
+	-- Set or show range
+	elseif arg == "range" then
+		core.Range:SetSpell(subarg)
 
 	-- Toggle debug
 	elseif arg == "debug" then
@@ -85,6 +91,9 @@ function core:Init(event, name)
 	core:Debug("Init: Create Coords module")
 	core.Coords:Create()
 
+	core:Debug("Init: Create Range module")
+	core.Range:Create()
+
 	core:Debug("Init: Create Notes module")
 	core.Notes:Create()
 	if core.options.notepadWidth and core.options.notepadHeight then
@@ -110,8 +119,8 @@ function core:Init(event, name)
 	-- Register slash command
 	SLASH_PRDUI1 = "/pui"
 	SLASH_PRDUI2 = "/prdui"
-	SlashCmdList["PRDUI"] = function(arg)
-		core:Console(arg)
+	SlashCmdList["PRDUI"] = function(args)
+		core:Console(args)
 	end
 
 	-- Register key bindings

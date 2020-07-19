@@ -8,6 +8,7 @@
 core.lua
 ui.lua
 coords.lua
+range.lua
 notes.lua
 config.lua
 bindings.xml
