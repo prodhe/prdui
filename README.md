@@ -7,7 +7,12 @@ World of Warcraft Classic AddOn.
 - Sane defaults
 - Nonintrusive
 
-Apart from a UI redesign, it also boasts quality-of-life modules such as coordinates, notepad and spell range indicator.
+Apart from a UI redesign, it also boasts quality-of-life modules:
+
+- Coordinates
+- Notepad
+- Spell range indicator
+- Sell all vendor trash with one click
 
 ![PrdUI screenshot](./screenshot.jpg)
 
