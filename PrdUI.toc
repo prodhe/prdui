@@ -12,6 +12,7 @@ coords.lua
 range.lua
 notes.lua
 merchant.lua
+cherrypick.lua
 config.lua
 bindings.xml
 init.lua

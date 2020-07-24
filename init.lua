@@ -89,6 +89,9 @@ function core:Init(event, name)
 	core:Debug("Init: Create Merchant module")
 	core.Merchant:Create()
 
+	-- core:Debug("Init: Create CherryPick module")
+	-- core.CherryPick:Create()
+
 	core:Debug("Init: Create Notes module")
 	core.Notes:Create()
 	if core.options.notepadWidth and core.options.notepadHeight then
