@@ -19,9 +19,10 @@ function Notes:Create()
 	f.DialogBG = _G[f:GetName() .. "DialogBG"]
 	local w = 300
 	local h = 340
+	f:SetFrameStrata("HIGH")
 	f:SetSize(w, h)
 	f:SetAlpha(1)
-	f.DialogBG:SetAlpha(0.8)
+	f.DialogBG:SetAlpha(0.9)
 	f:SetPoint("CENTER", UIParent, "CENTER")
 	f.title = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 	f.title:SetPoint("CENTER", f.Title, "CENTER", 0, -7)
