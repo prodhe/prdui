@@ -99,7 +99,9 @@ end
 
 -- Update dynamic text fields
 function Config:UpdateFields()
-	f.sectionRange.currentSpell:SetText("Current ability: " .. core.charOptions.rangeSpell)
+	local rs = core.charOptions.rangeSpell
+	if not rs or rs == "" then rs = "<none>" end
+	f.sectionRange.currentSpell:SetText("Current ability: " .. rs)
 end
 
 -- Create a section frame

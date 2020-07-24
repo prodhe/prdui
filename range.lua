@@ -68,7 +68,10 @@ function Range:SetSpell(spell)
 		if not core.charOptions.rangeSpell then
 			core.charOptions.rangeSpell = ""
 		end
-		core:Print("Range: Current spell: " .. core.charOptions.rangeSpell)
+
+		local rs = core.charOptions.rangeSpell
+		if not rs or rs == "" then rs = "<none>" end
+		core:Print("Range: Current spell: " .. rs)
 		return
 	end
 
