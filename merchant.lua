@@ -3,6 +3,8 @@ local _, core = ...
 core.Merchant = {}
 local Merchant = core.Merchant
 
+core.options.merchantenable = false
+
 -- Create the area from which other elements will position into
 function Merchant:Create()
 	core:Debug("Merchant: Create")

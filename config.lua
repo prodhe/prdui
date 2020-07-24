@@ -18,13 +18,13 @@ function Config:Create()
 
 	-- Title
 	f.sectionHeader = Config:CreateSectionFrame("TOPLEFT", f, "TOPLEFT", 17, -16, 100, 30)
-	f.headerTitle = Config:CreateHeaderText("TOPLEFT", f.sectionHeader, "TOPLEFT", 0, "PrdUI", 30)
+	f.headerTitle = Config:CreateHeaderText("TOPLEFT", f.sectionHeader, "TOPLEFT", 0, "PrdUI", 20)
 	f.headerTitle:SetFont("Fonts/MORPHEUS.ttf", 30) -- override with Diablo font
 	
 	-- Section UI
-	f.sectionUI = Config:CreateSectionFrame("TOPLEFT", f.sectionHeader, "BOTTOMLEFT", 0, -20, 285, 150)
-	f.sectionUI.header = Config:CreateHeaderText("TOPLEFT", f.sectionUI, "TOPLEFT", 0, "User interface", 16)
-	f.sectionUI.checkbtnUIEnable = Config:CreateCheckButton("TOPLEFT", f.sectionUI.header, "BOTTOMLEFT", -15, "ChkBtnUIEnable", "Redesign UI", "Use the PrdUI GUI design. Toggling this will force a UI reload.", core.options.uienable, function(self)
+	f.sectionUI = Config:CreateSectionFrame("TOPLEFT", f.sectionHeader, "BOTTOMLEFT", 0, -20, 285, 120)
+	f.sectionUI.header = Config:CreateHeaderText("TOPLEFT", f.sectionUI, "TOPLEFT", 0, "User interface", 14)
+	f.sectionUI.checkbtnUIEnable = Config:CreateCheckButton("TOPLEFT", f.sectionUI.header, "BOTTOMLEFT", -15, "ChkBtnUIEnable", "Redesign UI", "Use the PrdUI GUI design.\n\nToggling this will force a UI reload.", core.options.uienable, function(self)
 		if self:GetChecked() then
 			core.options.uienable = true
 		else
@@ -44,8 +44,8 @@ function Config:Create()
 	f.sectionUI.sliderScale:SetEnabled(core.options.uienable)
 
 	-- Section system
-	f.sectionSystem = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "BOTTOMLEFT", 0, -20, 285, 150)
-	f.sectionSystem.header = Config:CreateHeaderText("TOPLEFT", f.sectionSystem, "TOPLEFT", 0, "System", 16)
+	f.sectionSystem = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "BOTTOMLEFT", 0, -20, 285, 120)
+	f.sectionSystem.header = Config:CreateHeaderText("TOPLEFT", f.sectionSystem, "TOPLEFT", 0, "System", 14)
 	f.sectionSystem.checkbtnChatMeta = Config:CreateCheckButton("TOPLEFT", f.sectionSystem.header, "BOTTOMLEFT", -15, "ChkBtnChatMeta", "Allow editing in chat box", "Enable the use of meta characters in chat, such as arrow keys for moving the cursor in the edit box.", core.options.chat, function(self)
 		if self:GetChecked() then
 			core.options.chat = true
@@ -62,8 +62,8 @@ function Config:Create()
 	end)
 
 	-- Section notepad
-	f.sectionNotepad = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "TOPRIGHT", 20, 0, 285, 150)
-	f.sectionNotepad.header = Config:CreateHeaderText("TOPLEFT", f.sectionNotepad, "TOPLEFT", 0, "Notepad", 16)
+	f.sectionNotepad = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "TOPRIGHT", 20, 0, 285, 120)
+	f.sectionNotepad.header = Config:CreateHeaderText("TOPLEFT", f.sectionNotepad, "TOPLEFT", 0, "Notepad", 14)
 	f.sectionNotepad.btnNotepad = Config:CreateButton("TOPLEFT", f.sectionNotepad.header, "BOTTOMLEFT", -10, "Toggle", function()
 		core.Notes:Toggle()
 	end)
@@ -87,11 +87,37 @@ function Config:Create()
 	f.sectionNotepad.editHeight:SetNumeric(true)
 
 	-- Section coords
-	f.sectionCoords = Config:CreateSectionFrame("TOPLEFT", f.sectionNotepad, "BOTTOMLEFT", 0, -20, 285, 150)
-	f.sectionCoords.header = Config:CreateHeaderText("TOPLEFT", f.sectionCoords, "TOPLEFT", 0, "Coords", 16)
+	f.sectionCoords = Config:CreateSectionFrame("TOPLEFT", f.sectionNotepad, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionCoords.header = Config:CreateHeaderText("TOPLEFT", f.sectionCoords, "TOPLEFT", 0, "Coords", 14)
 	f.sectionCoords.btnCoords = Config:CreateButton("TOPLEFT", f.sectionCoords.header, "BOTTOMLEFT", -10, "Show coordinates", function()
 		core.Coords:Show()
 	end)
+
+	-- Section merchant
+	f.sectionMerchant = Config:CreateSectionFrame("TOPLEFT", f.sectionCoords, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionMerchant.header = Config:CreateHeaderText("TOPLEFT", f.sectionMerchant, "TOPLEFT", 0, "Merchant", 14)
+	f.sectionMerchant.checkbtnMerchantEnable = Config:CreateCheckButton("TOPLEFT", f.sectionMerchant.header, "BOTTOMLEFT", -15, "ChkBtnMerchantEnable", "Show Sell trash", "This will add a new button in all merchant windows, enabling you to sell all poor (gray) quality items with one click.\n\nToggling this will force a UI reload.", core.options.merchantenable, function(self)
+		if self:GetChecked() then
+			core.options.merchantenable = true
+		else
+			core.options.merchantenable = false
+		end
+		ReloadUI()
+	end)
+
+	-- Section range
+	f.sectionRange = Config:CreateSectionFrame("TOPLEFT", f.sectionMerchant, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionRange.header = Config:CreateHeaderText("TOPLEFT", f.sectionRange, "TOPLEFT", 0, "Range", 14)
+	f.sectionRange.currentSpell = Config:CreateText("TOPLEFT", f.sectionRange, "TOPLEFT", -30, "", 14)
+
+	-- Lastly, update dynamic text fields. This is supposed to be called from sub modules, if they have
+	-- something up here that needs to be updated.
+	Config:UpdateFields()
+end
+
+-- Update dynamic text fields
+function Config:UpdateFields()
+	f.sectionRange.currentSpell:SetText("Current ability: " .. core.charOptions.rangeSpell)
 end
 
 -- Create a section frame
@@ -147,7 +173,7 @@ function Config:CreateButton(point, relativeFrame, relativePoint, yOffset, text,
 	btn:SetPoint(point, relativeFrame, relativePoint, 0, yOffset)
 	btn:SetSize(145, 22)
 	btn:SetText(text)
-	btn.tooltip = "Hejhej"
+	btn.tooltip = ""
 	btn:SetNormalFontObject("GameFontNormal")
 	btn:SetHighlightFontObject("GameFontHighlight")
 	btn:SetScript("OnClick", function(self) handlerFunc(self) end)
