@@ -62,29 +62,11 @@ function Config:Create()
 	end)
 
 	-- Section notepad
-	f.sectionNotepad = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "TOPRIGHT", 20, 0, 285, 120)
+	f.sectionNotepad = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "TOPRIGHT", 20, 0, 285, 60)
 	f.sectionNotepad.header = Config:CreateHeaderText("TOPLEFT", f.sectionNotepad, "TOPLEFT", 0, "Notepad", 14)
 	f.sectionNotepad.btnNotepad = Config:CreateButton("TOPLEFT", f.sectionNotepad.header, "BOTTOMLEFT", -10, "Toggle", function()
 		core.Notes:Toggle()
 	end)
-	f.sectionNotepad.editWidth = Config:CreateInputBox("TOPLEFT", f.sectionNotepad.btnNotepad, "BOTTOMLEFT", -20, "Width", 80, core.options.notepadWidth, function(self)
-		local w = self:GetNumber()
-		if w < 120 then
-			w = 120
-			self:SetText(w)
-		end
-		core.Notes:SetSize(w, core.options.notepadHeight)
-	end)
-	f.sectionNotepad.editWidth:SetNumeric(true)
-	f.sectionNotepad.editHeight = Config:CreateInputBox("TOPLEFT", f.sectionNotepad.editWidth, "TOPRIGHT", 0, "Height", 80, core.options.notepadHeight, function(self)
-		local h = self:GetNumber()
-		if h < 130 then
-			h = 130
-			self:SetText(h)
-		end
-		core.Notes:SetSize(core.options.notepadWidth, h)
-	end)
-	f.sectionNotepad.editHeight:SetNumeric(true)
 
 	-- Section coords
 	f.sectionCoords = Config:CreateSectionFrame("TOPLEFT", f.sectionNotepad, "BOTTOMLEFT", 0, -20, 285, 60)

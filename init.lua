@@ -58,8 +58,6 @@ function core:Init(event, name)
 
 	-- Set or load options
 	core:LoadDB()
-
-	core:Debug(core.options.notepadWidth, ",", core.options.notepadHeight)
 	
 	core:Debug("Init: Create configuration panel.")
 	core.Config:Create()
@@ -90,10 +88,6 @@ function core:Init(event, name)
 
 	core:Debug("Init: Create Notes module")
 	core.Notes:Create()
-	if core.options.notepadWidth and core.options.notepadHeight then
-		core:Debug("Init: Notes: Setting user width and height")
-		core.Notes:SetSize(core.options.notepadWidth, core.options.notepadHeight)
-	end
 	if core.options.notepadOpen then
 		core.Notes:Toggle()
 	end
