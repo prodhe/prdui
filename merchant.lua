@@ -3,8 +3,6 @@ local _, core = ...
 core.Merchant = {}
 local Merchant = core.Merchant
 
-local merchantOpen = false
-
 -- Create the area from which other elements will position into
 function Merchant:Create()
 	core:Debug("Merchant: Create")
@@ -25,16 +23,14 @@ function Merchant:Create()
 
 end
 
--- Handle events and reposition some stuff that is otherwise immovable
+-- Handle events
 function Merchant:HandleEvents(event, arg1, ...)
 	if event == "MERCHANT_SHOW" then
 		core:Debug("Merchant: HandleEvents:", event)
-		merchantOpen = true
 		Merchant.Frame:Show()
 
 	elseif event == "MERCHANT_CLOSED" then
 		core:Debug("Merchant: HandleEvents:", event)
-		merchantOpen = false
 		Merchant.Frame:Hide()
 
 	else
@@ -43,7 +39,7 @@ function Merchant:HandleEvents(event, arg1, ...)
 end
 
 function Merchant:SellJunk()
-	if not merchantOpen then return end
+	if not Merchant.Frame:IsShown() then return end
 
 	local nItems = 0
 
