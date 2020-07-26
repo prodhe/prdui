@@ -56,10 +56,15 @@ function core:Print(...)
 	print("|cff" .. "f59c0a" .. "PrdUI:|r", ...)
 end
 
+-- PrintPlain is a non-prefixed print function
+function core:PrintPlain(...)
+	print("|cff" .. "f59c0a", ...)
+end
+
 -- Debug is a prefixed print function, which only prints if debug is activated
 function core:Debug(...)
 	if core.options.debug then
-		print("|cff" .. "f59c0a" .. "DEBUG:|r", ...)
+		print("|cff" .. "f59c0a" .. "PrdUI-DEBUG:|r", ...)
 	end
 end
 function core:ToggleDebug()
