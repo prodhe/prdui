@@ -56,8 +56,8 @@ function Merchant:FindTrash()
 	do
 		for bagSlot = 1, 20, 1
 		do
-			_, _, _, itemRarity, _, _, itemLink = GetContainerItemInfo(bagID, bagSlot)
-			if itemLink and itemRarity < 1 then
+			_, _, _, itemRarity, _, _, itemLink, _, noValue = GetContainerItemInfo(bagID, bagSlot)
+			if itemLink and itemRarity < 1 and not noValue then
 				return true -- found one, no need to loop more
 			end
 		end
