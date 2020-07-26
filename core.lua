@@ -58,7 +58,7 @@ end
 
 -- PrintPlain is a non-prefixed print function
 function core:PrintPlain(...)
-	print("|cff" .. "f59c0a", ...)
+	print(...)
 end
 
 -- Debug is a prefixed print function, which only prints if debug is activated
