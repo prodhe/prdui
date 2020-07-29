@@ -9,16 +9,17 @@ function core:Console(args)
 	if arg == "" then
 		s = [[
 
-Console commands:
-
 /pui coords - Print current zone and coordinates (Key Bindings > Other > PrdUI)
 /pui notepad - Open notepad (Key Bindings > Other > PrdUI)
 /pui range <spellname> - Show or set spell to check when in range
-/pui uireload - Reload UI affecting parts (can fix broken stuff)
 /pui defaults - Reset PrdUI to (very neutral) default settings]]
 		core:Print(s)
 		InterfaceOptionsFrame_OpenToCategory("PrdUI")
 		InterfaceOptionsFrame_OpenToCategory("PrdUI") -- need this twice for some reason
+
+	-- Toggle debug
+	elseif arg == "debug" then
+		core:ToggleDebug()
 
 	-- Rerun all the scaling, hiding and moving around of UI widget
 	elseif arg == "uireload" then
@@ -27,21 +28,17 @@ Console commands:
 		core.UI:HideBlizzard()
 		core.UI:MoveAll()
 
-	-- Open notes
-	elseif arg == "notepad" then
-		core.Notes:Toggle()
-
 	-- Print coords
 	elseif arg == "coords" then
 		core.Coords:Show()
 
+	-- Open notes
+	elseif arg == "notepad" then
+		core.Notes:Toggle()
+
 	-- Set or show range
 	elseif arg == "range" then
 		core.Range:SetSpell(subarg)
-
-	-- Toggle debug
-	elseif arg == "debug" then
-		core:ToggleDebug()
 
 	-- Reset and restore entire AddOn to default values
 	elseif arg == "defaults" then
@@ -61,8 +58,6 @@ function core:Init(event, name)
 
 	-- Set or load options
 	core:LoadDB()
-
-	core:Debug(core.options.notepadWidth, ",", core.options.notepadHeight)
 	
 	core:Debug("Init: Create configuration panel.")
 	core.Config:Create()
@@ -86,18 +81,16 @@ function core:Init(event, name)
 	core:Debug("Init: Create Range module")
 	core.Range:Create()
 
-	core:Debug("Init: Create Merchant module")
-	core.Merchant:Create()
+	if core.options.merchantenable then
+		core:Debug("Init: Create Merchant module")
+		core.Merchant:Create()
+	end
 
 	-- core:Debug("Init: Create CherryPick module")
 	-- core.CherryPick:Create()
 
 	core:Debug("Init: Create Notes module")
 	core.Notes:Create()
-	if core.options.notepadWidth and core.options.notepadHeight then
-		core:Debug("Init: Notes: Setting user width and height")
-		core.Notes:SetSize(core.options.notepadWidth, core.options.notepadHeight)
-	end
 	if core.options.notepadOpen then
 		core.Notes:Toggle()
 	end

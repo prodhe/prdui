@@ -6,8 +6,6 @@ local Notes = core.Notes
 -- Stored data
 core.data.notepad = ""
 core.options.notepadOpen = false
-core.options.notepadWidth = 300
-core.options.notepadHeight = 340
 
 local f
 local ed
@@ -21,19 +19,22 @@ function Notes:Create()
 	f.DialogBG = _G[f:GetName() .. "DialogBG"]
 	local w = 300
 	local h = 340
-	if core.options.notepadWidth and core.options.notepadHeight then
-		w = core.options.notepadWidth
-		h = core.options.notepadHeight
-		core:Debug("Notes: Using user size")
-	end
+	f:SetFrameStrata("HIGH")
 	f:SetSize(w, h)
 	f:SetAlpha(1)
-	f.DialogBG:SetAlpha(0.8)
+	f.DialogBG:SetAlpha(0.9)
 	f:SetPoint("CENTER", UIParent, "CENTER")
 	f.title = f:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 	f.title:SetPoint("CENTER", f.Title, "CENTER", 0, -7)
 	f.title:SetText("Notepad")
 
+	-- Create scroll frame
+	f.ScrollFrame = CreateFrame("ScrollFrame", "PrdUINotesFrameScrollFrame", f, "UIPanelScrollFrameTemplate")
+	f.ScrollFrame:SetPoint("TOPLEFT", f.DialogBG, "TOPLEFT", 4, -6)
+	f.ScrollFrame:SetPoint("BOTTOMRIGHT", f.DialogBG, "BOTTOMRIGHT", -3, 4)
+	f.ScrollFrame:SetClipsChildren(true)
+
+	-- Make the window movable and resizable
 	f:EnableMouse(true)
 	f:SetMovable(true)
 	f:RegisterForDrag("LeftButton")
@@ -41,15 +42,25 @@ function Notes:Create()
 	f:SetScript("OnDragStop", f.StopMovingOrSizing)
 	f:SetClampedToScreen(true)
 
-	f.ScrollFrame = CreateFrame("ScrollFrame", "PrdUINotesFrameScrollFrame", f, "UIPanelScrollFrameTemplate")
-	f.ScrollFrame:SetPoint("TOPLEFT", f.DialogBG, "TOPLEFT", 4, -6)
-	f.ScrollFrame:SetPoint("BOTTOMRIGHT", f.DialogBG, "BOTTOMRIGHT", -3, 4)
-	f.ScrollFrame:SetClipsChildren(true)
-
-	-- Move the scrollbar to within the graphical frame
-	f.ScrollFrame.ScrollBar:ClearAllPoints()
-	f.ScrollFrame.ScrollBar:SetPoint("TOPLEFT", f.ScrollFrame, "TOPRIGHT", -8, -18)
-	f.ScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", f.ScrollFrame, "BOTTOMRIGHT", -7, 16)
+	f:SetResizable(true)
+	f:SetMinResize(170, 100)
+	local rb = CreateFrame("Button", "PrdUINotesFrameResizeButton", PrdUINotesFrame)
+	rb:SetPoint("BOTTOMRIGHT", -5, 7)
+	rb:SetSize(16, 16)
+	rb:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+	rb:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+	rb:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+	rb:SetScript("OnMouseDown", function(self, button)
+		if button == "LeftButton" then
+			f:StartSizing("BOTTOMRIGHT")
+			self:GetHighlightTexture():Hide() -- more noticeable
+		end
+	end)
+	rb:SetScript("OnMouseUp", function(self, button)
+		f:StopMovingOrSizing()
+		self:GetHighlightTexture():Show()
+		ed:SetWidth(f.ScrollFrame:GetWidth()-50) -- minus scrollbar
+	end)
 
 	-- Create EditBox
 	ed = CreateFrame("EditBox", "PrdUINotesFrameEditBox")
@@ -101,22 +112,6 @@ function Notes:Toggle()
 	core:Debug("Notes: Toggle")
 	f:SetShown(not f:IsShown())
 	core.options.notepadOpen = f:IsShown()
-end
-
-function Notes:SetSize(w, h)
-	core:Debug("Notes: SetSize: ", w, h)
-	if w == nil or w == "" then
-		w = core.options.notepadWidth
-	end
-	if h == nil or h == "" then
-		h = core.options.notepadHeight
-	end
-
-	core.options.notepadWidth = w
-	core.options.notepadHeight = h
-
-	f:SetSize(w, h)
-	ed:SetWidth(w-50) -- minus scrollbar
 end
 
 -- This hijacks the global chatedit link insertion and listens for hyperlink clicks

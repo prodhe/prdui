@@ -19,6 +19,8 @@ function Range:Create()
 	t:SetHeight(300)
 	t:SetWidth(300)
 	t:SetScript("OnUpdate", function()
+		if not core.charOptions.rangeSpell then return end -- do nothing if no spell is chosen
+
 		if (rangeTimer < GetTime() - 2) then -- magic number in seconds
 			local alpha = t:GetAlpha()
 			if (alpha ~= 0) then t:SetAlpha(alpha - .05) end
@@ -66,7 +68,10 @@ function Range:SetSpell(spell)
 		if not core.charOptions.rangeSpell then
 			core.charOptions.rangeSpell = ""
 		end
-		core:Print("Range: Current spell: " .. core.charOptions.rangeSpell)
+
+		local rs = core.charOptions.rangeSpell
+		if not rs or rs == "" then rs = "<none>" end
+		core:Print("Range: Current spell: " .. rs)
 		return
 	end
 
@@ -78,4 +83,7 @@ function Range:SetSpell(spell)
 		core:Print("Range: Invalid spell: " .. spell)
 		core.charOptions.rangeSpell = ""
 	end
+
+	-- Update configuration panel
+	core.Config:UpdateFields()
 end
