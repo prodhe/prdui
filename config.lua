@@ -92,6 +92,11 @@ function Config:Create()
 	f.sectionRange.header = Config:CreateHeaderText("TOPLEFT", f.sectionRange, "TOPLEFT", 0, "Range", 14)
 	f.sectionRange.currentSpell = Config:CreateText("TOPLEFT", f.sectionRange, "TOPLEFT", -30, "", 14)
 
+	-- Section chat filter
+	f.sectionChatFilter = Config:CreateSectionFrame("TOPLEFT", f.sectionRange, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionChatFilter.header = Config:CreateHeaderText("TOPLEFT", f.sectionChatFilter, "TOPLEFT", 0, "Chat filter", 14)
+	f.sectionChatFilter.currentNeedle = Config:CreateText("TOPLEFT", f.sectionChatFilter, "TOPLEFT", -30, "", 14)
+
 	-- Lastly, update dynamic text fields. This is supposed to be called from sub modules, if they have
 	-- something up here that needs to be updated.
 	Config:UpdateFields()
@@ -102,6 +107,10 @@ function Config:UpdateFields()
 	local rs = core.charOptions.rangeSpell
 	if not rs or rs == "" then rs = "<none>" end
 	f.sectionRange.currentSpell:SetText("Current ability: " .. rs)
+
+	local cfn = core.ChatFilter:GetNeedle()
+	if not cfn or cfn == "" then cfn = "<disabled>" end
+	f.sectionChatFilter.currentNeedle:SetText("Current search: " .. cfn)
 end
 
 -- Create a section frame

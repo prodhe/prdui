@@ -12,6 +12,7 @@ function core:Console(args)
 /pui coords - Print current zone and coordinates (Key Bindings > Other > PrdUI)
 /pui notepad - Open notepad (Key Bindings > Other > PrdUI)
 /pui range <spellname> - Show or set spell to check when in range
+/pui filter <pattern> - Disable or set LFG chat filter using Lua pattern matching
 /pui defaults - Reset PrdUI to (very neutral) default settings]]
 		core:Print(s)
 		InterfaceOptionsFrame_OpenToCategory("PrdUI")
@@ -39,6 +40,10 @@ function core:Console(args)
 	-- Set or show range
 	elseif arg == "range" then
 		core.Range:SetSpell(subarg)
+
+	-- Set or clear filter
+	elseif arg == "filter" then
+		core.ChatFilter:SetNeedle(subarg)
 
 	-- Reset and restore entire AddOn to default values
 	elseif arg == "defaults" then
@@ -86,8 +91,8 @@ function core:Init(event, name)
 		core.Merchant:Create()
 	end
 
-	-- core:Debug("Init: Create CherryPick module")
-	-- core.CherryPick:Create()
+	core:Debug("Init: Create ChatFilter module")
+	core.ChatFilter:Create()
 
 	core:Debug("Init: Create Notes module")
 	core.Notes:Create()
