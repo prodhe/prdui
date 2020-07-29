@@ -35,7 +35,7 @@ While in-game, type `/pui` for options.
 
 ### Range
 
-`/pui range <spellname>` - Show or set spell to check when in range
+`/pui range <spell>` - Disable or set spell to check when in range
 
 This will display the name of the chosen spell if the target is valid and within range. The text is
 briefly shown and will only popup again if the state is changed, i.e. in-or-out of range or a new target.
@@ -43,6 +43,10 @@ briefly shown and will only popup again if the state is changed, i.e. in-or-out 
 The range check works for all kinds of spells currently known to the active player and the spell chosen is saved per character.
 
 #### Example
+
+`/pui range`
+
+Clear and disable the spell range check.
 
 `/pui range Auto Shot`
 

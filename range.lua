@@ -65,23 +65,17 @@ end
 -- Set ranged spell
 function Range:SetSpell(spell)
 	if not spell or spell == "" then
-		if not core.charOptions.rangeSpell then
+		core.charOptions.rangeSpell = ""
+		core:Print("Range: Cleared and disabled.")
+	else
+		name, _, _, _, _, _, _ = GetSpellInfo(spell)
+		if name then
+			core:Print("Setting new spell to track: " .. name)
+			core.charOptions.rangeSpell = name
+		else
+			core:Print("Invalid spell to track: " .. spell)
 			core.charOptions.rangeSpell = ""
 		end
-
-		local rs = core.charOptions.rangeSpell
-		if not rs or rs == "" then rs = "<none>" end
-		core:Print("Range: Current spell: " .. rs)
-		return
-	end
-
-	name, _, _, _, _, _, _ = GetSpellInfo(spell)
-	if name then
-		core:Print("Range: Setting new spell: " .. name)
-		core.charOptions.rangeSpell = name
-	else
-		core:Print("Range: Invalid spell: " .. spell)
-		core.charOptions.rangeSpell = ""
 	end
 
 	-- Update configuration panel
