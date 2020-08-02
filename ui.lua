@@ -7,6 +7,8 @@ local UI = core.UI
 core.options.scale = 0.9 -- default scale
 core.options.uienable = false
 
+local inCombat = false
+
 -- Create the area from which other elements will position into
 function UI:Create()
 	core:Debug("UI: Create")
@@ -23,15 +25,22 @@ function UI:Create()
 
 	-- Events
 	core:RegisterEvents(UI.Frame, UI.HandleEvents,
-		"PLAYER_ENTERING_WORLD",
+		"LOADING_SCREEN_DISABLED", -- Returning from loading screen
+		-- "PLAYER_ENTERING_WORLD",
+
 		"CURRENT_SPELL_CAST_CHANGED", -- recreates the castingbar
 		"UNIT_SPELLCAST_START",
 		"UNIT_SPELLCAST_SUCCEEDED",
 		"UNIT_SPELLCAST_STOP",
+		"PLAYER_MOUNT_DISPLAY_CHANGED",
+
 		"UPDATE_FACTION", -- Rep bar
 		"UPDATE_BONUS_ACTIONBAR", -- leave vehicle/flight
-		"LOADING_SCREEN_DISABLED", -- Returning from loading screen
-		"PLAYER_MOUNT_DISPLAY_CHANGED"
+
+		"PLAYER_REGEN_ENABLED",
+		"PLAYER_REGEN_DISABLED" -- best markers for in and out of combat
+
+		-- "UPDATE_ALL_UI_WIDGETS"
 		-- "ACTIONBAR_UPDATE_USABLE", -- flight makes actionbar inactive
 		-- "PET_BAR_UPDATE",
 		-- "UNIT_PET",
@@ -47,11 +56,9 @@ end
 
 -- Handle events and reposition some stuff that is otherwise immovable
 function UI:HandleEvents(event, arg1, ...)
-	if event == "PLAYER_ENTERING_WORLD" then
+	if event == "LOADING_SCREEN_DISABLED" then
 		core:Debug("UI: HandleEvents:", event)
-		core.UI:MoveUnitFrames()
-		core.UI:MoveRepBar()
-		core.UI:MoveVehicleLeave()
+		core.UI:MoveAll()
 
 	-- Casting spell
 	elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_STOP" or event == "UNIT_SPELLCAST_SUCCEEDED" then
@@ -71,12 +78,16 @@ function UI:HandleEvents(event, arg1, ...)
 	elseif event == "UPDATE_BONUS_ACTIONBAR" then
 		core:Debug("UI: HandleEvents:", event)
 		core.UI:MoveVehicleLeave()
-		-- core.UI:MoveDynamicFrames()
 
-	elseif event == "LOADING_SCREEN_DISABLED" then
+	elseif event == "PLAYER_REGEN_ENABLED" then
 		core:Debug("UI: HandleEvents:", event)
-		core.UI:MoveUnitFrames()
-	
+		inCombat = false
+		core.UI:MoveUnitFrames() -- in case they got screwed up during instance in/out while in combat
+
+	elseif event == "PLAYER_REGEN_DISABLED" then
+		core:Debug("UI: HandleEvents:", event)
+		inCombat = true
+
 	else
 		core:Debug("UI: HandleEvents: not handled:", event)
 	end
@@ -161,6 +172,7 @@ end
 -- Move repositions static elements into our UI
 function UI:Move()
 	if not core.options.uienable then return end
+	if inCombat then return end
 
 	core:Debug("UI: Move")
 
@@ -168,23 +180,27 @@ function UI:Move()
 	local sw = CharacterMicroButton:GetWidth()
 	local sh = CharacterMicroButton:GetHeight()
 	local aw = ActionButton1:GetWidth() + 3
-	local ah = ActionButton1:GetHeight() + 6
-	local pw = PetActionButton1:GetWidth()
-	local ph = PetActionButton1:GetHeight()
-	local bh = MainMenuBarBackpackButton:GetHeight()
+	-- local ah = ActionButton1:GetHeight() + 6
+	-- local pw = PetActionButton1:GetWidth()
+	-- local ph = PetActionButton1:GetHeight()
+	-- local bh = MainMenuBarBackpackButton:GetHeight()
 
+	core:Debug("UI: Move: Backpacks")
 	-- Backpacks
 	MainMenuBarBackpackButton:ClearAllPoints()
 	MainMenuBarBackpackButton:SetPoint("BOTTOMRIGHT", UIParent, 0, 3)
 
+	core:Debug("UI: Move: System buttons")
 	-- System buttons
 	CharacterMicroButton:ClearAllPoints()
 	CharacterMicroButton:SetPoint("RIGHT", KeyRingButton, "LEFT", -sw*7, sh/6)
 
+	core:Debug("UI: Move: Exp bar")
 	-- Exp bar
 	MainMenuExpBar:ClearAllPoints()
 	MainMenuExpBar:SetPoint("TOP", UIParent)
 
+	core:Debug("UI: Move: Action bars")
 	-- Action bars
 	_G["ActionButton1"]:ClearAllPoints()
 	_G["ActionButton1"]:SetPoint("BOTTOM", UI.Frame, -aw*6+3, 6)
@@ -193,21 +209,24 @@ function UI:Move()
 	_G["MultiBarBottomRightButton1"]:ClearAllPoints()
 	_G["MultiBarBottomRightButton1"]:SetPoint("BOTTOM", MultiBarBottomLeftButton1, "TOP", 0, 6)
 
+	core:Debug("UI: Move: Vertical action bars")
+	-- Vertical action bars
+	_G["VerticalMultiBarsContainer"]:ClearAllPoints()
+	VerticalMultiBarsContainer:SetPoint("RIGHT", UIParent, "RIGHT", 0, 0)
+	_G["VerticalMultiBarsContainer"]:SetPoint("BOTTOMRIGHT", MainMenuBarBackpackButton, "TOP", 0, 6)
+
+	core:Debug("UI: Move: Pet and stance buttons")
 	-- Pet and stance
 	_G["PetActionButton1"]:ClearAllPoints()
 	_G["PetActionButton1"]:SetPoint("BOTTOM", MultiBarBottomRightButton1, "TOP", -3, 6)
 	_G["StanceButton1"]:ClearAllPoints()
 	_G["StanceButton1"]:SetPoint("BOTTOM", MultiBarBottomRightButton1, "TOP", -3, 6)
-
-	-- Vertical action bars
-	_G["VerticalMultiBarsContainer"]:ClearAllPoints()
-	VerticalMultiBarsContainer:SetPoint("RIGHT", UIParent, "RIGHT", 0, 0)
-	_G["VerticalMultiBarsContainer"]:SetPoint("BOTTOMRIGHT", MainMenuBarBackpackButton, "TOP", 0, 6)
 end
 
 -- Move casting bar
 function UI:MoveCastingBar(event)
 	if not core.options.uienable then return end
+	if inCombat then return end
 
 	core:Debug("UI: MoveCastingBar")
 	local ah = (ActionButton1:GetHeight() + 6)*core.options.scale
@@ -219,6 +238,7 @@ end
 -- Player and target unit frames
 function UI:MoveUnitFrames()
 	if not core.options.uienable then return end
+	if inCombat then return end
 
 	core:Debug("UI: MoveUnitFrames")
 	local ah = ActionButton1:GetHeight() + 6
@@ -232,6 +252,7 @@ end
 -- Vehicle (leave flight)
 function UI:MoveVehicleLeave()
 	if not core.options.uienable then return end
+	if inCombat then return end
 
 	core:Debug("UI: MoveVehicleLeave")
 	MainMenuBarVehicleLeaveButton:ClearAllPoints()
@@ -241,6 +262,7 @@ end
 -- Reputation bar
 function UI:MoveRepBar()
 	if not core.options.uienable then return end
+	if inCombat then return end
 
 	core:Debug("UI: MoveRepBar")
 	local y = 15
@@ -255,6 +277,7 @@ end
 -- MoveAll is a convenient redo-move-it-all function
 function UI:MoveAll()
 	if not core.options.uienable then return end
+	if inCombat then return end
 
 	UI:Move()
 	UI:MoveCastingBar()
@@ -269,6 +292,12 @@ function UI:Reload()
 		core:Print("UI Redesign not enabled.")
 		return
 	end
+
+	if inCombat then
+		core:Print("Must be out of combat for UI quick reload.")
+		return
+	end
+
 	core:Print("Reload.")
 	core.UI:Scale()
 	core.UI:HideBlizzard()

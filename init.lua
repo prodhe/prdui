@@ -77,7 +77,6 @@ function core:Init(event, name)
 		core.UI:Create()
 		core.UI:HideBlizzard()
 		core.UI:Scale()
-		core.UI:Move()
 	end
 
 	core:Debug("Init: Create Coords module")
