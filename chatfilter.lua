@@ -4,19 +4,21 @@ core.ChatFilter = {}
 local ChatFilter = core.ChatFilter
 
 local chatFilterNeedle = ""
+local f = nil
 
 -- Create the area from which other elements will position into
 function ChatFilter:Create()
 	core:Debug("ChatFilter: Create")
 
 	-- Create ChatFilterFrame
-	local f = CreateFrame("Frame")
+	f = CreateFrame("Frame")
 	f:Hide()
 
 	-- Events
 	core:RegisterEvents(f, ChatFilter.HandleEvents,
 		"CHAT_MSG_CHANNEL"
 	)
+	f:UnregisterEvent("CHAT_MSG_CHANNEL")
 
 end
 
@@ -46,8 +48,10 @@ function ChatFilter:SetNeedle(needle)
 	core.Config:UpdateFields()
 
 	if needle == "" then
+		f:UnregisterEvent("CHAT_MSG_CHANNEL")
 		core:Print("LFG filter cleared and disabled.")
 	else
+		f:RegisterEvent("CHAT_MSG_CHANNEL")
 		core:Print("LFG filter set to:", needle)
 	end
 end
