@@ -27,22 +27,26 @@ function BuffTracker:Create()
 	f:SetScript("OnDragStop", f.StopMovingOrSizing)
 	f:SetClampedToScreen(true)
 
-	BuffTracker:Count()
+	f:Hide()
 
 	-- Events
 	core:RegisterEvents(f, BuffTracker.HandleEvents,
 		"UNIT_AURA"
 	)
+
+	if core.options.bufftrackerenable then
+		BuffTracker:Toggle()
+	end
 end
 
 -- Handle events
 function BuffTracker:HandleEvents(event, arg1, ...)
+	if not core.options.bufftrackerenable then return end
+
 	core:Debug("BuffTracker: HandleEvents:", event)
 
 	if event == "UNIT_AURA" then
-		core:Debug("BuffTracker: UNIT_AURA: ")
 		BuffTracker:Count()
-
 	else
 		core:Debug("BuffTracker: HandleEvents: not handled:", event)
 	end
