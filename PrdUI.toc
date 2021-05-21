@@ -13,7 +13,6 @@ range.lua
 notes.lua
 merchant.lua
 chatfilter.lua
-bufftracker.lua
 config.lua
 bindings.xml
 init.lua

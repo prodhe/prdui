@@ -11,7 +11,6 @@ function core:Console(args)
 
 /pui coords - Print current zone and coordinates (Key Bindings > Other > PrdUI)
 /pui notepad - Open notepad (Key Bindings > Other > PrdUI)
-/pui bufftracker - Show current buffs
 /pui range <spell> - Disable or set spell to check when in range
 /pui filter <pattern> - Disable or set LFG chat filter using Lua pattern matching
 /pui defaults - Reset PrdUI to (very neutral) default settings]]
@@ -37,10 +36,6 @@ function core:Console(args)
 	-- Open notes
 	elseif arg == "notepad" then
 		core.Notes:Toggle()
-
-	-- Toggle BuffTracker
-	elseif arg == "bufftracker" or arg == "bt" then
-		core.BuffTracker:Toggle()
 
 	-- Set or show range
 	elseif arg == "range" then
@@ -94,9 +89,6 @@ function core:Init(event, name)
 		core:Debug("Init: Create Merchant module")
 		core.Merchant:Create()
 	end
-
-	core:Debug("Init: Create BuffTrack module")
-	core.BuffTracker:Create()
 
 	core:Debug("Init: Create ChatFilter module")
 	core.ChatFilter:Create()

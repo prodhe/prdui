@@ -87,20 +87,8 @@ function Config:Create()
 		ReloadUI()
 	end)
 
-	-- Section buff tracker
-	f.sectionBuffTracker = Config:CreateSectionFrame("TOPLEFT", f.sectionMerchant, "BOTTOMLEFT", 0, -20, 285, 60)
-	f.sectionBuffTracker.header = Config:CreateHeaderText("TOPLEFT", f.sectionBuffTracker, "TOPLEFT", 0, "Buff tracker", 14)
-	f.sectionBuffTracker.checkbtnBuffTrackerEnable = Config:CreateCheckButton("TOPLEFT", f.sectionBuffTracker.header, "BOTTOMLEFT", -15, "ChkBtnBuffTrackerEnable", "Show buff tracker", "Toggle current count of all player buffs.", core.options.bufftrackerenable, function(self)
-		if self:GetChecked() then
-			core.options.bufftrackerenable = true
-		else
-			core.options.bufftrackerenable = false
-		end
-		core.BuffTracker:Toggle()
-	end)
-
 	-- Section range
-	f.sectionRange = Config:CreateSectionFrame("TOPLEFT", f.sectionBuffTracker, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionRange = Config:CreateSectionFrame("TOPLEFT", f.sectionMerchant, "BOTTOMLEFT", 0, -20, 285, 60)
 	f.sectionRange.header = Config:CreateHeaderText("TOPLEFT", f.sectionRange, "TOPLEFT", 0, "Range", 14)
 	f.sectionRange.currentSpell = Config:CreateText("TOPLEFT", f.sectionRange, "TOPLEFT", -30, "", 14)
 
