@@ -164,7 +164,8 @@ function UI:Scale()
 	TalentMicroButton:SetScale(core.options.scale)
 	QuestLogMicroButton:SetScale(core.options.scale)
 	SocialsMicroButton:SetScale(core.options.scale)
-	WorldMapMicroButton:SetScale(core.options.scale)
+	-- WorldMapMicroButton:SetScale(core.options.scale) -- deprecated
+	LFGMicroButton:SetScale(core.options.scale)
 	MainMenuMicroButton:SetScale(core.options.scale)
 	HelpMicroButton:SetScale(core.options.scale)
 end
