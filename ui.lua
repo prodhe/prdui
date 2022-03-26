@@ -195,6 +195,8 @@ function UI:Move()
 	-- System buttons
 	CharacterMicroButton:ClearAllPoints()
 	CharacterMicroButton:SetPoint("RIGHT", KeyRingButton, "LEFT", -sw*7, sh/6)
+	LFGMicroButton:SetPoint("LEFT", SocialsMicroButton, "RIGHT", -sw/10, sh/6-(sh/6)) -- lower this to the same height as the others
+	MainMenuMicroButton:SetPoint("LEFT", LFGMicroButton, "RIGHT", -sw/10, sh/6-(sh/6)) -- connect the rest to the moved LFGMicroButton
 
 	core:Debug("UI: Move: Exp bar")
 	-- Exp bar
