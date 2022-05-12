@@ -1,7 +1,7 @@
 ## Interface: 20504
 ## Title: PrdUI
 ## Author: prodhe
-## Version: 1.0.2
+## Version: 1.1.0
 ## Notes: User interface of choice.
 ## SavedVariables: PRDUIDB
 ## SavedVariablesPerCharacter: PRDUIDBCHAR
@@ -13,6 +13,7 @@ range.lua
 notes.lua
 merchant.lua
 chatfilter.lua
+fishing.lua
 config.lua
 bindings.xml
 init.lua

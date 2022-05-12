@@ -13,6 +13,7 @@ function core:Console(args)
 /pui notepad - Open notepad (Key Bindings > Other > PrdUI)
 /pui range <spell> - Disable or set spell to check when in range
 /pui filter <pattern> - Disable or set LFG chat filter using Lua pattern matching
+/pui fishing <on|off> - Disable or set system sounds to enhance fishing effect
 /pui defaults - Reset PrdUI to (very neutral) default settings]]
 		core:Print(s)
 		InterfaceOptionsFrame_OpenToCategory("PrdUI")
@@ -44,6 +45,14 @@ function core:Console(args)
 	-- Set or clear filter
 	elseif arg == "filter" then
 		core.ChatFilter:SetNeedle(subarg)
+
+	-- Set or restore fishing sounds
+	elseif arg == "fishing" then
+		if subarg == "on" then
+			core.Fishing:SetSound()
+		else
+			core.Fishing:Reset()
+		end
 
 	-- Reset and restore entire AddOn to default values
 	elseif arg == "defaults" then
@@ -98,6 +107,9 @@ function core:Init(event, name)
 	if core.options.notepadOpen then
 		core.Notes:Toggle()
 	end
+
+	core:Debug("Init: Create Fishing module")
+	core.Fishing:Create()
 
 	-- Hijack item links for notepad
 	core:Debug("Init: Setup chat links for notes")
