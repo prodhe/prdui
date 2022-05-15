@@ -6,8 +6,11 @@ local Fishing = core.Fishing
 -- Stored data
 core.data.fishingSounds = nil
 
+-- Options
+core.options.fishingmv = 100 -- default master volume in percentage
+
 local fishingSounds = {
-	Sound_MasterVolume = 100,
+	Sound_MasterVolume = core.options.fishingmv,
 	Sound_MusicVolume = 0,
 	Sound_AmbienceVolume = 0,
 	Sound_SFXVolume = 100
@@ -51,6 +54,9 @@ function Fishing:SetSound()
 	
 	-- Set new values
 	for key, val in pairs(fishingSounds) do
+		if key == "Sound_MasterVolume" then
+			val = core.options.fishingmv
+		end
 		core:Debug("Fishing: SetSound: setting " .. key .. ":" .. val)
 		BlizzardOptionsPanel_SetCVarSafe(key, tonumber(val));
 	end

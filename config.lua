@@ -68,15 +68,16 @@ function Config:Create()
 		core.Notes:Toggle()
 	end)
 
-	-- Section coords
-	f.sectionCoords = Config:CreateSectionFrame("TOPLEFT", f.sectionNotepad, "BOTTOMLEFT", 0, -20, 285, 60)
-	f.sectionCoords.header = Config:CreateHeaderText("TOPLEFT", f.sectionCoords, "TOPLEFT", 0, "Coords", 14)
-	f.sectionCoords.btnCoords = Config:CreateButton("TOPLEFT", f.sectionCoords.header, "BOTTOMLEFT", -10, "Show coordinates", function()
-		core.Coords:Show()
+	-- Section fishing
+	f.sectionFishing = Config:CreateSectionFrame("TOPLEFT", f.sectionNotepad, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionFishing.header = Config:CreateHeaderText("TOPLEFT", f.sectionFishing, "TOPLEFT", 0, "Fishing", 14)
+	f.sectionFishing.sliderScale = Config:CreateSlider("TOPLEFT", f.sectionFishing.header, "BOTTOMLEFT", -20, "SliderScaleFishing", "Master Volume", "Master volume when fishing is active.", "0%", "100%", 0, 100, core.options.fishingmv, 5, function(self, value)
+		core.options.fishingmv = tonumber(value)
+		core:Debug("Fishing: master volume set:" .. core.options.fishingmv)
 	end)
 
 	-- Section merchant
-	f.sectionMerchant = Config:CreateSectionFrame("TOPLEFT", f.sectionCoords, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionMerchant = Config:CreateSectionFrame("TOPLEFT", f.sectionFishing, "BOTTOMLEFT", 0, -20, 285, 60)
 	f.sectionMerchant.header = Config:CreateHeaderText("TOPLEFT", f.sectionMerchant, "TOPLEFT", 0, "Merchant", 14)
 	f.sectionMerchant.checkbtnMerchantEnable = Config:CreateCheckButton("TOPLEFT", f.sectionMerchant.header, "BOTTOMLEFT", -15, "ChkBtnMerchantEnable", "Show Sell trash", "This will add a new button in all merchant windows, enabling you to sell all poor (gray) quality items with one click.\n\nToggling this will force a UI reload.", core.options.merchantenable, function(self)
 		if self:GetChecked() then
