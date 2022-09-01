@@ -162,10 +162,12 @@ function UI:Scale()
 	CharacterMicroButton:SetScale(core.options.scale)
 	SpellbookMicroButton:SetScale(core.options.scale)
 	TalentMicroButton:SetScale(core.options.scale)
+	AchievementMicroButton:SetScale(core.options.scale)
 	QuestLogMicroButton:SetScale(core.options.scale)
 	SocialsMicroButton:SetScale(core.options.scale)
 	-- WorldMapMicroButton:SetScale(core.options.scale) -- deprecated
 	LFGMicroButton:SetScale(core.options.scale)
+	PVPMicroButton:SetScale(core.options.scale)
 	MainMenuMicroButton:SetScale(core.options.scale)
 	HelpMicroButton:SetScale(core.options.scale)
 end
@@ -194,9 +196,7 @@ function UI:Move()
 	core:Debug("UI: Move: System buttons")
 	-- System buttons
 	CharacterMicroButton:ClearAllPoints()
-	CharacterMicroButton:SetPoint("RIGHT", KeyRingButton, "LEFT", -sw*7, sh/6)
-	LFGMicroButton:SetPoint("LEFT", SocialsMicroButton, "RIGHT", -sw/10, sh/6-(sh/6)) -- lower this to the same height as the others
-	MainMenuMicroButton:SetPoint("LEFT", LFGMicroButton, "RIGHT", -sw/10, sh/6-(sh/6)) -- connect the rest to the moved LFGMicroButton
+	CharacterMicroButton:SetPoint("RIGHT", KeyRingButton, "LEFT", -sw*9, sh/6)
 
 	core:Debug("UI: Move: Exp bar")
 	-- Exp bar
