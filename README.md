@@ -1,6 +1,6 @@
 # PrdUI
 
-World of Warcraft Classic (TBC) AddOn.
+World of Warcraft Classic (Wotlk) AddOn.
 
 - Clean
 - Few options
