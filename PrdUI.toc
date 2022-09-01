@@ -1,7 +1,7 @@
-## Interface: 20504
+## Interface: 30400
 ## Title: PrdUI
 ## Author: prodhe
-## Version: 1.1.0
+## Version: 1.1.1
 ## Notes: User interface of choice.
 ## SavedVariables: PRDUIDB
 ## SavedVariablesPerCharacter: PRDUIDBCHAR
