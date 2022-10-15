@@ -63,14 +63,9 @@ end
 
 -- Handle events and reposition some stuff that is otherwise immovable
 function UI:HandleEvents(event, arg1, ...)
-	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" then
+	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" or event == "UNIT_FLAGS" then
 		core:Debug("UI: HandleEvents:", event)
 		core.UI:MoveAll()
-
-	-- Unit flags
-	elseif event == "UNIT_FLAGS" then
-		core:Debug("UI: HandleEvents:", event)
-		core.UI:MoveUnitFrames()
 
 	-- Casting spell
 	elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_STOP" or event == "UNIT_SPELLCAST_SUCCEEDED" then
