@@ -14,6 +14,7 @@ function core:Console(args)
 /pui range <spell> - Disable or set spell to check when in range
 /pui filter <pattern> - Disable or set LFG chat filter using Lua pattern matching
 /pui fishing <on|off> - Disable or set system sounds to enhance fishing effect
+/pui uireload - Manually trigger a reload of UI elements
 /pui defaults - Reset PrdUI to (very neutral) default settings]]
 		core:Print(s)
 		InterfaceOptionsFrame_OpenToCategory("PrdUI")
