@@ -154,7 +154,10 @@ function UI:Scale()
 		_G["PetActionButton"..i]:SetScale(core.options.scale)
 		_G["StanceButton"..i]:SetScale(core.options.scale)
 	end
-	
+
+	-- MultiCastActionBar
+	_G["MultiCastActionBarFrame"]:SetScale(core.options.scale)
+
 	-- Backpacks
 	MainMenuBarBackpackButton:SetScale(core.options.scale)
 	for i = 0,3,1 do
@@ -228,6 +231,11 @@ function UI:Move()
 	_G["PetActionButton1"]:SetPoint("BOTTOM", MultiBarBottomRightButton1, "TOP", -3, 6)
 	_G["StanceButton1"]:ClearAllPoints()
 	_G["StanceButton1"]:SetPoint("BOTTOM", MultiBarBottomRightButton1, "TOP", -3, 6)
+
+	core:Debug("UI: Move: Multicast action bar buttons")
+	-- Multicast action
+	_G["MultiCastActionBarFrame"]:ClearAllPoints()
+	_G["MultiCastActionBarFrame"]:SetPoint("BOTTOMLEFT", MultiBarBottomRightButton1, "TOP", -3, 6)
 end
 
 -- Move casting bar
