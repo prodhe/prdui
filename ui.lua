@@ -46,7 +46,13 @@ function UI:Create()
 		"VEHICLE_UPDATE",
 		"UPDATE_VEHICLE_ACTIONBAR",
 		"UNIT_FLAGS",
-		"UPDATE_ALL_UI_WIDGETS"
+		"UPDATE_ALL_UI_WIDGETS",
+		"PORTRAITS_UPDATED",
+		"UNIT_MODEL_CHANGED",
+		"UNIT_PET",
+		"UNIT_AURA",
+		"PET_BAR_UPDATE",
+		"COMPANION_UPDATE"
 
 		-- "ACTIONBAR_UPDATE_USABLE", -- flight makes actionbar inactive
 		-- "PET_BAR_UPDATE",
@@ -63,7 +69,7 @@ end
 
 -- Handle events and reposition some stuff that is otherwise immovable
 function UI:HandleEvents(event, arg1, ...)
-	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" or event == "UNIT_FLAGS" or event == "UPDATE_ALL_UI_WIDGETS" then
+	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" or event == "UNIT_FLAGS" or event == "UPDATE_ALL_UI_WIDGETS" or event == "PORTRAITS_UPDATED" or event == "UNIT_MODEL_CHANGED" or event == "UNIT_PET" or event == "UNIT_AURA" or event == "PET_BAR_UPDATE" or event == "COMPANION_UPDATE" then
 		core:Debug("UI: HandleEvents:", event)
 		core.UI:MoveAll()
 
