@@ -45,9 +45,9 @@ function UI:Create()
 		"VEHICLE_PASSENGERS_CHANGED",
 		"VEHICLE_UPDATE",
 		"UPDATE_VEHICLE_ACTIONBAR",
-		"UNIT_FLAGS"
+		"UNIT_FLAGS",
+		"UPDATE_ALL_UI_WIDGETS"
 
-		-- "UPDATE_ALL_UI_WIDGETS"
 		-- "ACTIONBAR_UPDATE_USABLE", -- flight makes actionbar inactive
 		-- "PET_BAR_UPDATE",
 		-- "UNIT_PET",
@@ -63,7 +63,7 @@ end
 
 -- Handle events and reposition some stuff that is otherwise immovable
 function UI:HandleEvents(event, arg1, ...)
-	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" or event == "UNIT_FLAGS" then
+	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" or event == "UNIT_FLAGS" or event == "UPDATE_ALL_UI_WIDGETS" then
 		core:Debug("UI: HandleEvents:", event)
 		core.UI:MoveAll()
 
