@@ -44,7 +44,8 @@ function UI:Create()
 		"UNIT_EXITED_VEHICLE",
 		"VEHICLE_PASSENGERS_CHANGED",
 		"VEHICLE_UPDATE",
-		"UPDATE_VEHICLE_ACTIONBAR"
+		"UPDATE_VEHICLE_ACTIONBAR",
+		"UNIT_FLAGS"
 
 		-- "UPDATE_ALL_UI_WIDGETS"
 		-- "ACTIONBAR_UPDATE_USABLE", -- flight makes actionbar inactive
@@ -65,6 +66,11 @@ function UI:HandleEvents(event, arg1, ...)
 	if event == "LOADING_SCREEN_DISABLED" or event == "UNIT_ENTERED_VEHICLE" or event == "UNIT_EXITED_VEHICLE" or event == "VEHICLE_PASSENGERS_CHANGED" or event == "VEHICLE_UPDATE" or event == "UPDATE_VEHICLE_ACTIONBAR" then
 		core:Debug("UI: HandleEvents:", event)
 		core.UI:MoveAll()
+
+	-- Unit flags
+	elseif event == "UNIT_FLAGS" then
+		core:Debug("UI: HandleEvents:", event)
+		core.UI:MoveUnitFrames()
 
 	-- Casting spell
 	elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_STOP" or event == "UNIT_SPELLCAST_SUCCEEDED" then
