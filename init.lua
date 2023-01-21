@@ -89,11 +89,11 @@ function core:Init(event, name)
 		core.UI:Scale()
 	end
 
-	core:Debug("Init: Create Coords module")
-	core.Coords:Create()
+	-- core:Debug("Init: Create Coords module")
+	-- core.Coords:Create() -- error as of 230121
 
-	core:Debug("Init: Create Range module")
-	core.Range:Create()
+	-- core:Debug("Init: Create Range module")
+	-- core.Range:Create() -- error as of 230121
 
 	if core.options.merchantenable then
 		core:Debug("Init: Create Merchant module")
@@ -103,18 +103,18 @@ function core:Init(event, name)
 	core:Debug("Init: Create ChatFilter module")
 	core.ChatFilter:Create()
 
-	core:Debug("Init: Create Notes module")
-	core.Notes:Create()
-	if core.options.notepadOpen then
-		core.Notes:Toggle()
-	end
+	-- core:Debug("Init: Create Notes module")
+	-- core.Notes:Create() -- error as of 230121
+	-- if core.options.notepadOpen then
+		-- core.Notes:Toggle()
+	-- end
+
+	-- Hijack item links for notepad
+	-- core:Debug("Init: Setup chat links for notes")
+	-- core.Notes:SetupChatLinks()
 
 	core:Debug("Init: Create Fishing module")
 	core.Fishing:Create()
-
-	-- Hijack item links for notepad
-	core:Debug("Init: Setup chat links for notes")
-	core.Notes:SetupChatLinks()
 
 	-- Functions for key binds
 	_G["KeyBinding_ToggleNotepad"] = function()
