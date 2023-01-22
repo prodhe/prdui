@@ -10,7 +10,6 @@ World of Warcraft Classic (Wotlk) AddOn.
 Apart from a UI redesign, it also boasts quality-of-life modules:
 
 - Coordinates
-- Notepad
 - Spell range indicator
 - Sell all vendor trash with one click
 - LFG chat filter

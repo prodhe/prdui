@@ -10,7 +10,6 @@ core.lua
 ui.lua
 coords.lua
 range.lua
-notes.lua
 merchant.lua
 chatfilter.lua
 fishing.lua

@@ -61,15 +61,8 @@ function Config:Create()
 		core:RestoreDefaults()
 	end)
 
-	-- Section notepad
-	f.sectionNotepad = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "TOPRIGHT", 20, 0, 285, 60)
-	f.sectionNotepad.header = Config:CreateHeaderText("TOPLEFT", f.sectionNotepad, "TOPLEFT", 0, "Notepad", 14)
-	f.sectionNotepad.btnNotepad = Config:CreateButton("TOPLEFT", f.sectionNotepad.header, "BOTTOMLEFT", -10, "Toggle", function()
-		core.Notes:Toggle()
-	end)
-
 	-- Section fishing
-	f.sectionFishing = Config:CreateSectionFrame("TOPLEFT", f.sectionNotepad, "BOTTOMLEFT", 0, -20, 285, 60)
+	f.sectionFishing = Config:CreateSectionFrame("TOPLEFT", f.sectionUI, "TOPRIGHT", 20, 0, 285, 60)
 	f.sectionFishing.header = Config:CreateHeaderText("TOPLEFT", f.sectionFishing, "TOPLEFT", 0, "Fishing", 14)
 	f.sectionFishing.sliderScale = Config:CreateSlider("TOPLEFT", f.sectionFishing.header, "BOTTOMLEFT", -20, "SliderScaleFishing", "Master Volume", "Master volume when fishing is active.", "0%", "100%", 0, 100, core.options.fishingmv, 5, function(self, value)
 		core.options.fishingmv = tonumber(value)

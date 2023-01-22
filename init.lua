@@ -10,7 +10,6 @@ function core:Console(args)
 		s = [[
 
 /pui coords - Print current zone and coordinates (Key Bindings > Other > PrdUI)
-/pui notepad - Open notepad (Key Bindings > Other > PrdUI)
 /pui range <spell> - Disable or set spell to check when in range
 /pui filter <pattern> - Disable or set LFG chat filter using Lua pattern matching
 /pui fishing <on|off> - Disable or set system sounds to enhance fishing effect
@@ -34,10 +33,6 @@ function core:Console(args)
 	-- Print coords
 	elseif arg == "coords" then
 		core.Coords:Show()
-
-	-- Open notes
-	elseif arg == "notepad" then
-		core.Notes:Toggle()
 
 	-- Set or show range
 	elseif arg == "range" then
@@ -103,23 +98,9 @@ function core:Init(event, name)
 	core:Debug("Init: Create ChatFilter module")
 	core.ChatFilter:Create()
 
-	-- core:Debug("Init: Create Notes module")
-	-- core.Notes:Create() -- error as of 230121
-	-- if core.options.notepadOpen then
-		-- core.Notes:Toggle()
-	-- end
-
-	-- Hijack item links for notepad
-	-- core:Debug("Init: Setup chat links for notes")
-	-- core.Notes:SetupChatLinks()
-
 	core:Debug("Init: Create Fishing module")
 	core.Fishing:Create()
 
-	-- Functions for key binds
-	_G["KeyBinding_ToggleNotepad"] = function()
-		core.Notes:Toggle()
-	end
 	_G["KeyBinding_ShowCoords"] = function()
 		core.Coords:Show()
 	end
@@ -133,7 +114,6 @@ function core:Init(event, name)
 
 	-- Register key bindings
 	BINDING_HEADER_PRDUI = "PrdUI"
-	BINDING_NAME_PRDUI_NOTES = "Toggle Notepad"
 	BINDING_NAME_PRDUI_COORDS = "Show coordinates"
 
 	-- Announce loaded
