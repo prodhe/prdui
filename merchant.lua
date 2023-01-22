@@ -56,9 +56,11 @@ function Merchant:FindTrash()
 	do
 		for bagSlot = 1, 20, 1
 		do
-			_, _, _, itemRarity, _, _, itemLink, _, noValue = GetContainerItemInfo(bagID, bagSlot)
-			if itemLink and itemRarity < 1 and not noValue then
-				return true -- found one, no need to loop more
+			local ci = C_Container.GetContainerItemInfo(bagID, bagSlot)
+			if ci ~= nil then -- there was an item at pos bagID,bagSlot
+				if ci.quality < 1 then
+					return true -- found one, no need to loop more
+				end
 			end
 		end
 	end
@@ -75,13 +77,15 @@ function Merchant:SellJunk()
 	do
 		for bagSlot = 1, 20, 1
 		do
-			_, _, _, itemRarity, _, _, itemLink = GetContainerItemInfo(bagID, bagSlot)
-			if itemLink and itemRarity < 1 then
-				core:Debug("Merchant: SellJunk: Selling:", itemLink)
-				_, _, _, _, _, _, _, _, _, _, itemSellPrice = GetItemInfo(itemLink)
-				sellValueCopper = sellValueCopper + itemSellPrice
-				UseContainerItem(bagID, bagSlot)
-				nItems = nItems + 1
+			local ci = C_Container.GetContainerItemInfo(bagID, bagSlot)
+			if ci ~= nil then
+				if ci.quality < 1 then
+					core:Debug("Merchant: SellJunk: Selling:", ci.hyperlink)
+					_, _, _, _, _, _, _, _, _, _, itemSellPrice = GetItemInfo(ci.itemID)
+					sellValueCopper = sellValueCopper + itemSellPrice
+					C_Container.UseContainerItem(bagID, bagSlot)
+					nItems = nItems + 1
+				end
 			end
 		end
 	end
