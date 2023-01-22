@@ -5,7 +5,7 @@ local Range = core.Range
 
 core.charOptions.rangeSpell = ""
 
-local rangeTimer = GetTime()
+local rangeTimer = nil
 local rangeUnitTarget = "target"
 local rangeunitTargetGUID = nil
 local inRange = nil
@@ -21,10 +21,7 @@ function Range:Create()
 	t:SetScript("OnUpdate", function()
 		if not core.charOptions.rangeSpell then return end -- do nothing if no spell is chosen
 
-		if (rangeTimer < GetTime() - 2) then -- magic number in seconds
-			local alpha = t:GetAlpha()
-			if (alpha ~= 0) then t:SetAlpha(alpha - .05) end
-		end
+		Range:Fade() -- Fade UI text if active
 
 		if UnitExists(rangeUnitTarget) and UnitIsVisible(rangeUnitTarget) then
 			local guid = UnitGUID(rangeUnitTarget)
@@ -60,6 +57,24 @@ function Range:Show()
 	rangeTimer = GetTime()
 	Range.Frame.text:SetText(str)
 	Range.Frame:SetAlpha(1)
+end
+
+-- Fade range text
+function Range:Fade()
+	if not rangeTimer then return end -- return early if no range is active
+	core:Debug("Range: Fade")
+
+	if (rangeTimer < GetTime() - 2) then -- magic number in seconds
+		local alpha = Range.Frame:GetAlpha()
+		if (alpha ~= 0) then
+			local newalpha = alpha - .05
+			if (newalpha < 0) then newalpha = 0 end
+			Range.Frame:SetAlpha(newalpha)
+			if newalpha == 0 then
+				rangeTimer = nil
+			end
+		end
+	end
 end
 
 -- Set ranged spell
