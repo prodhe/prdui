@@ -89,8 +89,8 @@ function core:Init(event, name)
 		core.UI:Scale()
 	end
 
-	-- core:Debug("Init: Create Coords module")
-	-- core.Coords:Create() -- error as of 230121
+	core:Debug("Init: Create Coords module")
+	core.Coords:Create()
 
 	-- core:Debug("Init: Create Range module")
 	-- core.Range:Create() -- error as of 230121

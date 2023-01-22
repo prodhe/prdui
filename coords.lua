@@ -16,7 +16,11 @@ function Coords:Create()
 	t:SetScript("OnUpdate", function()
 	  if (coordsTimer < GetTime() - 3) then -- magic number in seconds
 		local alpha = t:GetAlpha()
-		if (alpha ~= 0) then t:SetAlpha(alpha - .05) end
+		if (alpha ~= 0) then
+			local newalpha = alpha - .05
+			if (newalpha < 0) then newalpha = 0 end
+			t:SetAlpha(newalpha)
+		end
 		if (alpha == 0) then t:Hide() end
 	  end
 	end)
